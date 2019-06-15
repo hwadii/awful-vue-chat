@@ -1,16 +1,21 @@
 <template>
-  <v-container fluid pa-0 grid-list-md>
-    <v-container class="feed">
-      <v-layout pa-2 mb-2 column wrap>
+  <v-container fluid pa-0 grid-list-md overflow-hidden class="chat-background">
+    <v-container class="feed" mb-4>
+      <v-layout pa-2 mb-2 column>
         <v-flex v-for="(msg, i) in feed" :key="i">
-          <div v-if="msg.id == 0" class="speech-bubble-right">{{ msg.content }}</div>
-          <div v-else class="speech-bubble-left">{{ msg.content }}</div>
+          <div v-if="msg.id == 0" class="speech-bubble-right">
+            <div class="body-2">{{ msg.content }}</div>
+          </div>
+          <div v-else class="speech-bubble-left">
+            <h5 class="font-weight-thin grey--text">{{ msg.name }}</h5>
+            <div class="body-2">{{ msg.content }}</div>
+          </div>
         </v-flex>
       </v-layout>
     </v-container>
-    <v-container fluid pa-1 class="send" overflow-hidden>
-      <v-layout align-end justify-center row fill-height>
-        <v-textarea
+    <v-container pa-1 class="send">
+      <v-layout row fill-height>
+        <v-text-field
           v-model="content"
           @click:append="sendMessage({id: 0, name: 'Me', content: content})"
           @click:prepend-inner="sendMessage(mock)"
@@ -21,7 +26,7 @@
           prepend-inner-icon="expand_more"
           auto-grow
           placeholder="Aa"
-        ></v-textarea>
+        ></v-text-field>
       </v-layout>
     </v-container>
   </v-container>
@@ -33,52 +38,57 @@
   bottom: 0;
 }
 .speech-bubble-right {
-  max-width: 80%;
-  float: right;
-  padding: 2px 10%;
-  margin-bottom: 1em;
   position: relative;
-  background: white;
+  text-align: left;
+  background: #dcf8c6;
+  padding: .5em;
+  float: right;
+  box-shadow: 2px 2px 2px 1px rgba(0, 0, 0, 0.2);
+  max-width: 30ch;
+  word-wrap: break-word;
   border-radius: 0.4em;
 }
-
-.speech-bubble-right:after {
+.speech-bubble-right::after {
   content: "";
   position: absolute;
   right: 0;
-  top: 60%;
+  top: 50%;
   width: 0;
   height: 0;
-  border: 0.969em solid transparent;
-  border-left-color: white;
+  border: 11px solid transparent;
+  border-left-color: #dcf8c6;
   border-right: 0;
   border-bottom: 0;
-  margin-top: -0.484em;
-  margin-right: -0.969em;
+  box-shadow: 0px 1px rgba(0, 0, 0, 0.1);
+  margin-top: -5.5px;
+  margin-right: -11px;
 }
 
 .speech-bubble-left {
-  max-width: 80%;
+  max-width: 30ch;
+  padding: .5em;
+  text-align: left;
   float: left;
-  padding: 2px 10%;
   position: relative;
-  background: lime;
+  background: white;
+  box-shadow: 2px 2px 2px 1px rgba(0, 0, 0, 0.2);
+  word-wrap: break-word;
   border-radius: 0.4em;
 }
-
-.speech-bubble-left:after {
+.speech-bubble-left::after {
   content: "";
   position: absolute;
   left: 0;
-  top: 60%;
+  top: 50%;
   width: 0;
   height: 0;
-  border: 0.969em solid transparent;
-  border-right-color: lime;
+  border: 11px solid transparent;
+  border-right-color: white;
   border-left: 0;
   border-bottom: 0;
-  margin-top: -0.484em;
-  margin-left: -0.969em;
+  box-shadow: 0px 1px rgba(0, 0, 0, 0.1);
+  margin-top: -5.5px;
+  margin-left: -11px;
 }
 </style>
 
@@ -89,6 +99,7 @@ export default {
   data: function() {
     return {
       content: "",
+      rows: 1,
       mock: {
         id: 1,
         name: "Person",
@@ -99,7 +110,7 @@ export default {
           id: 0,
           name: "Me",
           content:
-            "At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis praesentium voluptatum deleniti atque corrupti quos dolores et quas molestias excepturi sint occaecati cupiditate non provident, similique sunt in culpa qui officia deserunt mollitia animi, id est laborum et dolorum fuga. Et harum quidem rerum facilis est et expedita distinctio. Nam libero tempore, cum soluta nobis est eligendi optio cumque nihil impedit quo minus id quod maxime placeat facere possimus, omnis voluptas assumenda est, omnis dolor repellendus. Temporibus autem quibusdam et aut officiis debitis aut rerum necessitatibus saepe eveniet ut et voluptates repudiandae sint et molestiae non recusandae. Itaque earum rerum hic tenetur a sapiente delectus, ut aut reiciendis voluptatibus maiores alias consequatur aut perferendis doloribus asperiores repellat."
+            "At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis praesentium voluptatum deleniti atque corrupti quos dolores et quas molestias excepturi sint occaecati cupiditate non provident, similique sunt in culpa qui officia deserunt mollitia animi, id est laborum et dolorum fuga. Et harum quidem rerum facilis est et expedita distinctio."
         },
         {
           id: 1,
@@ -120,6 +131,7 @@ export default {
         this.feed.push({ id: msg.id, name: msg.name, content: msg.content });
         this.content = "";
         this.$vuetify.goTo(9999, "easeOutQuad");
+        this.rows = 1;
       }
     }
   }

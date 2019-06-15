@@ -25,4 +25,8 @@ export default {
   text-align: center;
   color: #2c3e50;
 }
+
+#inspire {
+  background: #ECE5DD;
+}
 </style>
