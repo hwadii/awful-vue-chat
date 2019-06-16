@@ -1,5 +1,8 @@
 <template>
   <v-container fluid pa-0 grid-list-md overflow-hidden class="chat-background">
+    <v-toolbar v-if="proprietaire">
+      <v-toolbar-title>Hello world</v-toolbar-title>
+    </v-toolbar>
     <v-container class="feed" mb-4>
       <v-layout pa-2 mb-2 column>
         <v-flex v-for="(msg, i) in feed" :key="i">
@@ -13,7 +16,7 @@
         </v-flex>
       </v-layout>
     </v-container>
-    <v-container pa-1 class="send">
+    <v-container fluid pa-1 class="send">
       <v-layout row fill-height>
         <v-text-field
           v-model="content"
@@ -41,7 +44,7 @@
   position: relative;
   text-align: left;
   background: #dcf8c6;
-  padding: .5em;
+  padding: 0.5em;
   float: right;
   box-shadow: 2px 2px 2px 1px rgba(0, 0, 0, 0.2);
   max-width: 30ch;
@@ -66,7 +69,7 @@
 
 .speech-bubble-left {
   max-width: 30ch;
-  padding: .5em;
+  padding: 0.5em;
   text-align: left;
   float: left;
   position: relative;
@@ -95,6 +98,9 @@
 
 <script>
 export default {
+  props: {
+    proprietaire: Boolean
+  },
   name: "Chat",
   data: function() {
     return {
